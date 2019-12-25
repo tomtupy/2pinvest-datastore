@@ -1,0 +1,62 @@
+version: "3"
+services:
+  vault:
+    image: vault
+    ports:
+      - "8200:8200"
+    volumes:
+      - ./vault/config:/vault/config
+      - ./vault/policies:/vault/policies
+      - ./vault/data:/vault/data
+      - ./vault/logs:/vault/logs
+    cap_add:
+      - IPC_LOCK
+    networks:
+      main-net:
+        ipv4_address: 192.165.12.29
+    command: vault server -config=/vault/config/vault-config.json
+
+  postgres:
+    image: postgres:12.1
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "c@ShmON3y"
+    networks:
+      main-net:
+        ipv4_address: 192.165.12.30
+
+  influxdb:
+    image: influxdb:latest
+    volumes:
+      # Mount for influxdb data directory
+      - ./influxdb/data:/var/lib/influxdb
+      # Mount for influxdb configuration
+      - ./influxdb/config/:/etc/influxdb/
+    ports:
+      # The API for InfluxDB is served on port 8086
+      - "8086:8086"
+    networks:
+      main-net:
+        ipv4_address: 192.165.12.35
+
+  chronograf:
+    image: chronograf:latest
+    volumes:
+      # Mount for chronograf database
+      - ./chronograf/data/:/var/lib/chronograf/
+    ports:
+      # The WebUI for Chronograf is served on port 8888
+      - "8888:8888"
+    depends_on:
+      - influxdb
+
+networks:
+  main-net:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 192.165.12.0/24
+
