@@ -1,7 +1,7 @@
 # 2pinvest-datastore
 Stands up the following data-stores
-* [Hashicorp Vault]([https://www.vaultproject.io/])
-* [InfluxDB]([https://www.influxdata.com/products/influxdb-overview/)
+* [Hashicorp Vault](https://www.vaultproject.io/)
+* [InfluxDB](https://www.influxdata.com/products/influxdb-overview/)
 * [Postgres 12](https://www.postgresql.org/)
 
 ## Run
