@@ -1,6 +1,7 @@
 version: "3"
 services:
   vault:
+    restart: always
     image: vault
     ports:
       - "8200:8200"
@@ -17,6 +18,7 @@ services:
     command: vault server -config=/vault/config/vault-config.json
 
   postgres:
+    restart: always
     image: postgres:12.1
     ports:
       - "5432:5432"
@@ -29,6 +31,7 @@ services:
         ipv4_address: 192.165.12.30
 
   influxdb:
+    restart: always
     image: influxdb:latest
     volumes:
       # Mount for influxdb data directory
@@ -43,6 +46,7 @@ services:
         ipv4_address: 192.165.12.35
 
   chronograf:
+    restart: always
     image: chronograf:latest
     volumes:
       # Mount for chronograf database
